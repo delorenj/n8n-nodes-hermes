@@ -1,0 +1,87 @@
+{
+  "name": "response",
+  "label": "Response",
+  "description": "OpenAI Responses API (POST/GET/DELETE /v1/responses). Supports server-side conversation state via previous_response_id or named conversations — multi-turn context preserved without the client tracking history.",
+  "actions": ["create", "get", "delete"],
+  "operations": {
+    "create": {
+      "method": "POST",
+      "path": "/v1/responses"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/v1/responses/{responseId}"
+    },
+    "delete": {
+      "method": "DELETE",
+      "path": "/v1/responses/{responseId}"
+    }
+  },
+  "parameters": {
+    "action": {
+      "type": "string",
+      "required": true,
+      "enum": ["create", "get", "delete"],
+      "description": "The response operation to perform"
+    },
+    "responseId": {
+      "type": "string",
+      "required": true,
+      "description": "Stored response ID (e.g. resp_abc123). Used by get and delete.",
+      "in": "path",
+      "displayOptions": { "show": { "action": ["get", "delete"] } }
+    },
+    "model": {
+      "type": "string",
+      "required": false,
+      "default": "hermes-agent",
+      "description": "Model name (typically the Hermes profile name)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "input": {
+      "type": "string",
+      "required": true,
+      "description": "Input prompt (string or JSON array of typed input items for multimodal input)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "instructions": {
+      "type": "string",
+      "required": false,
+      "description": "System-level instructions layered on top of Hermes' core system prompt",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "previous_response_id": {
+      "type": "string",
+      "required": false,
+      "description": "Chain to a prior stored response. Server reconstructs the full conversation including tool calls and results.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "conversation": {
+      "type": "string",
+      "required": false,
+      "description": "Named conversation. Server automatically chains to the latest response in this conversation, so you don't need to track response IDs.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "store": {
+      "type": "boolean",
+      "required": false,
+      "default": true,
+      "description": "Persist this response so it can be used as previous_response_id later (up to 100 stored, LRU eviction).",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "stream": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "Stream Server-Sent Events. n8n collects all events and returns the final output plus raw events.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    }
+  }
+}

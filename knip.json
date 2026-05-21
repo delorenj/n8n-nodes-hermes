@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "src/credentials/HermesApi.credentials.ts",
+    "src/nodes/Hermes/Hermes.node.ts",
+    "tests/**/*.test.ts"
+  ],
+  "project": ["src/**/*.ts", "tests/**/*.ts"]
+}

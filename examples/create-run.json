@@ -1,0 +1,60 @@
+{
+  "name": "Hermes — Create Run and Poll",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "run",
+        "rawMode": false,
+        "action": "create",
+        "input": "Summarize today's open PRs and post to #engineering.",
+        "session_id": "n8n-pr-digest"
+      },
+      "id": "create-run",
+      "name": "Create Run",
+      "type": "n8n-nodes-hermes.hermes",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": { "hermesApi": { "name": "Hermes API account" } }
+    },
+    {
+      "parameters": {
+        "amount": 5,
+        "unit": "seconds"
+      },
+      "id": "wait",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [780, 300]
+    },
+    {
+      "parameters": {
+        "resource": "run",
+        "rawMode": false,
+        "action": "get",
+        "runId": "={{ $('Create Run').item.json.run_id }}"
+      },
+      "id": "poll-run",
+      "name": "Poll Run",
+      "type": "n8n-nodes-hermes.hermes",
+      "typeVersion": 1,
+      "position": [1040, 300],
+      "credentials": { "hermesApi": { "name": "Hermes API account" } }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [[{ "node": "Create Run", "type": "main", "index": 0 }]]
+    },
+    "Create Run": { "main": [[{ "node": "Wait", "type": "main", "index": 0 }]] },
+    "Wait": { "main": [[{ "node": "Poll Run", "type": "main", "index": 0 }]] }
+  }
+}

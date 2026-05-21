@@ -1,0 +1,122 @@
+{
+  "name": "job",
+  "label": "Job",
+  "description": "Manage scheduled / background agent runs (Hermes cron jobs). CRUD plus lifecycle controls (pause, resume, run-now). Body shape matches `hermes cron` CLI fields — prompt, schedule, skills, provider override, delivery target.",
+  "actions": ["list", "create", "get", "update", "delete", "pause", "resume", "run"],
+  "operations": {
+    "list": {
+      "method": "GET",
+      "path": "/api/jobs"
+    },
+    "create": {
+      "method": "POST",
+      "path": "/api/jobs"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/api/jobs/{jobId}"
+    },
+    "update": {
+      "method": "PATCH",
+      "path": "/api/jobs/{jobId}"
+    },
+    "delete": {
+      "method": "DELETE",
+      "path": "/api/jobs/{jobId}"
+    },
+    "pause": {
+      "method": "POST",
+      "path": "/api/jobs/{jobId}/pause"
+    },
+    "resume": {
+      "method": "POST",
+      "path": "/api/jobs/{jobId}/resume"
+    },
+    "run": {
+      "method": "POST",
+      "path": "/api/jobs/{jobId}/run"
+    }
+  },
+  "parameters": {
+    "action": {
+      "type": "string",
+      "required": true,
+      "enum": ["list", "create", "get", "update", "delete", "pause", "resume", "run"],
+      "description": "The job operation to perform"
+    },
+    "jobId": {
+      "type": "string",
+      "required": true,
+      "description": "Job ID — required by all operations except list and create",
+      "in": "path",
+      "displayOptions": {
+        "show": { "action": ["get", "update", "delete", "pause", "resume", "run"] }
+      }
+    },
+    "name": {
+      "type": "string",
+      "required": false,
+      "description": "Human-readable job name",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "prompt": {
+      "type": "string",
+      "required": false,
+      "description": "Prompt to run on schedule (required for create)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "schedule": {
+      "type": "string",
+      "required": false,
+      "placeholder": "0 9 * * MON",
+      "description": "Cron expression (5-field, e.g. '0 9 * * MON' for every Monday 9am)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "skills": {
+      "type": "string",
+      "required": false,
+      "splitAsArray": true,
+      "description": "Comma-separated skills to enable for this job",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "provider": {
+      "type": "string",
+      "required": false,
+      "description": "Override the LLM provider for this job (e.g. anthropic, openai, openrouter)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "model": {
+      "type": "string",
+      "required": false,
+      "description": "Override the model name for this job (e.g. claude-opus-4-7, gpt-5)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "deliver": {
+      "type": "string",
+      "required": false,
+      "description": "Delivery target for results (e.g. telegram, slack, discord, cli)",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "channel": {
+      "type": "string",
+      "required": false,
+      "description": "Specific channel/chat ID within the delivery target",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create", "update"] } }
+    },
+    "active": {
+      "type": "boolean",
+      "required": false,
+      "description": "Whether the job is active. Setting false has the same effect as pause.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["update"] } }
+    }
+  }
+}

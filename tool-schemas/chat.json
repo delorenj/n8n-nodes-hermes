@@ -1,0 +1,67 @@
+{
+  "name": "chat",
+  "label": "Chat",
+  "description": "Send messages to Hermes using the OpenAI-compatible Chat Completions API (POST /v1/chat/completions). Stateless — pass the full conversation in the messages array each call.",
+  "actions": ["complete"],
+  "operations": {
+    "complete": {
+      "method": "POST",
+      "path": "/v1/chat/completions"
+    }
+  },
+  "parameters": {
+    "action": {
+      "type": "string",
+      "required": true,
+      "enum": ["complete"],
+      "description": "The chat operation to perform"
+    },
+    "model": {
+      "type": "string",
+      "required": false,
+      "default": "hermes-agent",
+      "description": "Model name (typically the Hermes profile name). The actual LLM used is configured server-side; this field is cosmetic.",
+      "in": "body"
+    },
+    "messages": {
+      "type": "object",
+      "required": true,
+      "default": "[\n  {\"role\": \"user\", \"content\": \"Hello!\"}\n]",
+      "description": "Full conversation as an array of {role, content} objects. Roles: system, user, assistant. Content can be a string or an array of typed parts for multimodal input.",
+      "in": "body"
+    },
+    "stream": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "description": "If true, returns Server-Sent Events. n8n will collect all chunks and return the concatenated text plus the raw event list.",
+      "in": "body"
+    },
+    "temperature": {
+      "type": "number",
+      "required": false,
+      "description": "Sampling temperature (0-2). Accepted but actual sampling is configured server-side.",
+      "in": "body"
+    },
+    "max_tokens": {
+      "type": "number",
+      "required": false,
+      "description": "Maximum tokens to generate. Accepted but enforced server-side.",
+      "in": "body"
+    },
+    "sessionId": {
+      "type": "string",
+      "required": false,
+      "description": "Opt-in session continuity. Sent as the X-Hermes-Session-Id header — Hermes reuses the same agent session across calls with this ID.",
+      "in": "header",
+      "header": "X-Hermes-Session-Id"
+    },
+    "sessionKey": {
+      "type": "string",
+      "required": false,
+      "description": "Opt-in long-term memory scoping. Sent as the X-Hermes-Session-Key header — namespaces persistent memory for this session.",
+      "in": "header",
+      "header": "X-Hermes-Session-Key"
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "name": "run",
+  "label": "Run",
+  "description": "Hermes Runs API for long-form agentic sessions. Submit a run, poll its status, subscribe to events, or stop it. Designed for dashboards and async automations that want progress observability without holding a streaming connection open.",
+  "actions": ["create", "get", "stop", "events"],
+  "operations": {
+    "create": {
+      "method": "POST",
+      "path": "/v1/runs"
+    },
+    "get": {
+      "method": "GET",
+      "path": "/v1/runs/{runId}"
+    },
+    "stop": {
+      "method": "POST",
+      "path": "/v1/runs/{runId}/stop"
+    },
+    "events": {
+      "method": "GET",
+      "path": "/v1/runs/{runId}/events"
+    }
+  },
+  "parameters": {
+    "action": {
+      "type": "string",
+      "required": true,
+      "enum": ["create", "get", "stop", "events"],
+      "description": "The run operation to perform"
+    },
+    "runId": {
+      "type": "string",
+      "required": true,
+      "description": "Run ID returned by create (e.g. run_abc123)",
+      "in": "path",
+      "displayOptions": { "show": { "action": ["get", "stop", "events"] } }
+    },
+    "input": {
+      "type": "string",
+      "required": true,
+      "description": "Input prompt for the run",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "session_id": {
+      "type": "string",
+      "required": false,
+      "description": "External session ID. Hermes surfaces this in run status so external UIs can correlate runs with their own conversation IDs.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "instructions": {
+      "type": "string",
+      "required": false,
+      "description": "System-level instructions layered on top of Hermes' core system prompt",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "previous_response_id": {
+      "type": "string",
+      "required": false,
+      "description": "Continue from a stored response — full prior conversation (including tool calls) is reconstructed.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "conversation_history": {
+      "type": "object",
+      "required": false,
+      "default": "[]",
+      "description": "Optional array of prior {role, content} messages to seed conversation context. Use only when not using previous_response_id.",
+      "in": "body",
+      "displayOptions": { "show": { "action": ["create"] } }
+    },
+    "eventTimeoutMs": {
+      "type": "number",
+      "required": false,
+      "default": 30000,
+      "description": "Maximum time in milliseconds to wait for the events SSE stream before returning. The connection is closed when the run reaches a terminal state (completed/failed/cancelled) or this timeout elapses.",
+      "in": "query",
+      "displayOptions": { "show": { "action": ["events"] } }
+    }
+  }
+}

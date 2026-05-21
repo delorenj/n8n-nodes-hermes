@@ -1,0 +1,32 @@
+{
+  "name": "system",
+  "label": "System",
+  "description": "Hermes API server meta endpoints — health checks, capability discovery, and model listing. Useful for monitoring, dashboards, and dynamic UI configuration.",
+  "actions": ["health", "healthDetailed", "capabilities", "models"],
+  "operations": {
+    "health": {
+      "method": "GET",
+      "path": "/health"
+    },
+    "healthDetailed": {
+      "method": "GET",
+      "path": "/health/detailed"
+    },
+    "capabilities": {
+      "method": "GET",
+      "path": "/v1/capabilities"
+    },
+    "models": {
+      "method": "GET",
+      "path": "/v1/models"
+    }
+  },
+  "parameters": {
+    "action": {
+      "type": "string",
+      "required": true,
+      "enum": ["health", "healthDetailed", "capabilities", "models"],
+      "description": "The system operation to perform. health is the cheapest liveness check; healthDetailed adds session/resource info; capabilities reports the API surface; models lists advertised model names."
+    }
+  }
+}

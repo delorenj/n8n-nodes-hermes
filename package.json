@@ -1,0 +1,127 @@
+{
+  "name": "n8n-nodes-hermes",
+  "version": "0.1.0",
+  "description": "n8n community nodes for the Hermes Agent (NousResearch) API server",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "hermes",
+    "hermes-agent",
+    "nous-research",
+    "ai-agent",
+    "openai-compatible",
+    "automation"
+  ],
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/delorenj/n8n-nodes-hermes#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delorenj/n8n-nodes-hermes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/delorenj/n8n-nodes-hermes/issues"
+  },
+  "author": "Jarad DeLorenzo <jaradd@gmail.com>",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/HermesApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Hermes/Hermes.node.js"
+    ]
+  },
+  "scripts": {
+    "build": "rimraf dist && rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "changelog": "auto-changelog",
+    "knip": "knip",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "release": "release-it",
+    "release:pre": "release-it --no-git.requireBranch --github.prerelease --preRelease",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "^2.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@rollup/plugin-alias": "^6.0.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/node": "^22.10.5",
+    "@vitest/coverage-v8": "^2.1.8",
+    "auto-changelog": "^2.5.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "knip": "^5.79.0",
+    "lefthook": "^1.10.10",
+    "n8n-workflow": "^2.9.0",
+    "prettier": "^3.7.4",
+    "release-it": "^17.10.0",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.54.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-dts": "^6.3.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0",
+    "vitest": "^2.1.8"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "auto-changelog": {
+    "output": "CHANGELOG.md",
+    "unreleased": true,
+    "commitLimit": false,
+    "hideCredit": true
+  },
+  "release-it": {
+    "git": {
+      "changelog": "npx auto-changelog --unreleased-only --stdout --template https://raw.githubusercontent.com/release-it/release-it/main/templates/changelog-compact.hbs",
+      "commitMessage": "chore: release v${version}",
+      "requireBranch": "main"
+    },
+    "github": {
+      "release": true
+    },
+    "hooks": {
+      "after:init": [
+        "npm run lint",
+        "npm run test",
+        "npm run knip",
+        "npm run build"
+      ],
+      "before:npm:release": [
+        "npx auto-changelog -p",
+        "git add -A"
+      ]
+    },
+    "npm": {
+      "publish": true
+    }
+  }
+}

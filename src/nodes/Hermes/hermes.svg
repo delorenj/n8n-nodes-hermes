@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="hermesG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#E0B000"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#1a1a2e" stroke="url(#hermesG)" stroke-width="2"/>
+  <!-- Caduceus-like staff (☤) stylized -->
+  <g stroke="url(#hermesG)" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <line x1="32" y1="14" x2="32" y2="50"/>
+    <path d="M22 22 Q32 28 42 22"/>
+    <path d="M22 32 Q32 38 42 32"/>
+    <path d="M22 42 Q32 48 42 42"/>
+    <!-- wings -->
+    <path d="M24 16 Q18 18 16 22"/>
+    <path d="M40 16 Q46 18 48 22"/>
+  </g>
+  <circle cx="32" cy="14" r="2.5" fill="url(#hermesG)"/>
+</svg>

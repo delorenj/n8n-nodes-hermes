@@ -1,0 +1,36 @@
+{
+  "name": "Hermes — Chat Completion",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "rawMode": false,
+        "action": "complete",
+        "model": "hermes-agent",
+        "messages": "=[\n  { \"role\": \"system\", \"content\": \"You are a concise assistant.\" },\n  { \"role\": \"user\", \"content\": \"What is the airspeed velocity of an unladen swallow?\" }\n]",
+        "stream": false
+      },
+      "id": "hermes-chat",
+      "name": "Hermes Chat",
+      "type": "n8n-nodes-hermes.hermes",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": {
+        "hermesApi": { "name": "Hermes API account" }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [[{ "node": "Hermes Chat", "type": "main", "index": 0 }]]
+    }
+  }
+}

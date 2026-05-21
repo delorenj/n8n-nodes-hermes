@@ -1,0 +1,27 @@
+**/.claude/settings.local.json
+~/DevCloud/.gitignore_global
+node_modules
+*.mp4
+*.mp3
+*.zip
+*.aab
+.lastagent
+
+# Build output
+dist
+coverage
+docs
+*.tsbuildinfo
+
+# Editor/OS
+.DS_Store
+*.swp
+*.swo
+
+# Env / local
+.env
+.env.local
+.env.local.*
+
+# release-it
+.release-it.local.cjs

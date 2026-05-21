@@ -1,0 +1,37 @@
+{
+  "name": "Hermes — Schedule a Cron Job",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "trigger",
+      "name": "When clicking 'Test workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "job",
+        "rawMode": false,
+        "action": "create",
+        "name": "Nightly bug triage",
+        "prompt": "Pull the top open bug from the issue tracker, attempt a fix, and open a draft PR.",
+        "schedule": "0 2 * * *",
+        "skills": "github, code-review",
+        "deliver": "slack",
+        "channel": "#engineering"
+      },
+      "id": "create-job",
+      "name": "Create Job",
+      "type": "n8n-nodes-hermes.hermes",
+      "typeVersion": 1,
+      "position": [520, 300],
+      "credentials": { "hermesApi": { "name": "Hermes API account" } }
+    }
+  ],
+  "connections": {
+    "When clicking 'Test workflow'": {
+      "main": [[{ "node": "Create Job", "type": "main", "index": 0 }]]
+    }
+  }
+}
