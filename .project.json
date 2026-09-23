@@ -1,5 +1,14 @@
 {
   "project_name": "n8n-nodes-hermes",
   "project_description": "n8n nodes. For Hermes.",
-  "project_slug": "n8n-nodes-hermes"
+  "project_id": "n8n-nodes-hermes",
+  "repo_path": "/home/delorenj/code/n8n-nodes-hermes",
+  "ticket_provider": {
+    "type": "plane",
+    "workspace": "",
+    "identifier": "",
+    "board_id": "",
+    "state": "planned"
+  },
+  "agents": {}
 }
